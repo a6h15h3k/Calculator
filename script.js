@@ -1,9 +1,78 @@
-function operate(num1, num2, operator){}
+let upperDisplay = document.querySelector("#display-top");
+let lowerDisplay = document.querySelector("#display-bottom");
+let buttons = Array.from(document.querySelectorAll(".button"));
+let result;
 
-function add(){}
+setEventListeners(buttons);
 
-function subtract(){}
+function setEventListeners(buttons){}
+for (let button of buttons) {
+    if (button.classList.contains('number')) {
+        button.addEventListener('click', () => {
+            numberPress(button);
+        });
+    } else if (button.classList.contains('operator')) {
+        button.addEventListener('click', () => {
+            operatorPress(button);
+        });
+    } else if (button.classList.contains('equals')) {
+        button.addEventListener('click', () => {
+            equalsPress(button);
+        });
+    } else if (button.classList.contains('clear')) {
+        button.addEventListener('click', () => {
+            clearPress(button);
+        });
+    } else {
+        button.addEventListener('click', () => {
+            powerPress(button);
+        });
+    }
+}
 
-function multiply(){}
+function setUpperDisplay(item) {
+    upperDisplay.textContent += item;
+}
 
-function divide(){}
+function displayResult() {
+    lowerDisplay.textContent = result;
+}
+
+function operate(num1, num2, operator) { }
+
+function add(num1, num2) {
+    return num1 + num2;
+}
+
+function subtract(num1, num2) {
+    return num1 - num2;
+}
+
+function multiply(num1, num2) {
+    return num1 * num2;
+}
+
+function divide(num1, num2) {
+    return num1 / num2;
+}
+
+function numberPress(button) {
+    setUpperDisplay(button.textContent);
+}
+
+function operatorPress(button) {
+    setUpperDisplay(button.textContent);
+}
+
+function equalsPress() {
+    result = "result";
+    displayResult();
+}
+
+function clearPress(button) {
+    setUpperDisplay(button.textContent);
+}
+
+function powerPress(button) {
+    setUpperDisplay(button.textContent);
+}
