@@ -1,7 +1,7 @@
 let upperDisplay = document.querySelector("#display-top");
 let lowerDisplay = document.querySelector("#display-bottom");
 let buttons = Array.from(document.querySelectorAll(".button"));
-let result = "", newNum, numPressed = false, canPressDecimal = false, canPressOperator = false, decimalCount =0;
+let result, operand = "", currentOperator = "", nextOperator = "", numPressed = false, canPressDecimal = false, canPressOperator = false, decimalCount = 0, justInitialized = true;
 
 setEventListeners(buttons);
 
@@ -35,15 +35,42 @@ function setEventListeners(buttons) {
     }
 }
 
-function setUpperDisplay(item) {
+function addToUpperDisplay(item) {
     upperDisplay.textContent += item;
 }
 
-function displayResult() {
-    lowerDisplay.textContent = result;
+function setUpperDisplay(item) {
+    upperDisplay.textContent = item;
 }
 
-function operate(num1, num2, operator) { }
+function setLowerDisplay(item) {
+    if (isNaN(item) && !justInitialized)
+        lowerDisplay.textContent = "Ah-ah-ah!";
+    else if (justInitialized)
+        lowerDisplay.textContent = "";
+    else
+        lowerDisplay.textContent = item;
+}
+
+function displayResult() {
+    if (result != null)
+        setLowerDisplay(result);
+    else
+        setLowerDisplay(parseFloat(operand));
+}
+
+function calculate() {
+    switch (currentOperator) {
+        case "+":
+            return (add(result, parseFloat(operand)));
+        case "-":
+            return (subtract(result, parseFloat(operand)));
+        case "*":
+            return (multiply(result, parseFloat(operand)));
+        case "/":
+            return (divide(result, parseFloat(operand)));
+    }
+}
 
 function add(num1, num2) {
     return num1 + num2;
@@ -63,36 +90,58 @@ function divide(num1, num2) {
 
 function numberPress(button) {
     numPressed = true;
-    canPressDecimal=true;
-    setUpperDisplay(button.textContent);
+    canPressDecimal = true;
+    canPressOperator = true;
+    justInitialized = false;
+    operand += button.textContent;
+    equalsPress();
+    addToUpperDisplay(button.textContent);
 }
 
 function decimalPress(button) {
-    if (canPressDecimal && decimalCount==0) {
+    if (canPressDecimal && decimalCount == 0) {
         decimalCount++;
-        setUpperDisplay(button.textContent);
+        addToUpperDisplay(button.textContent);
         canPressDecimal = false;
+        canPressOperator = false;
+        operand += button.textContent;
     }
 }
 
 function operatorPress(button) {
-    if (numPressed) {
-        setUpperDisplay(button.textContent);
+    if (canPressOperator) {
+        addToUpperDisplay(button.textContent);
         numPressed = false;
         canPressDecimal = false;
-        decimalCount=0;
+        canPressOperator = false;
+        decimalCount = 0;
+        nextOperator = button.textContent;
+
+        if (result != null)
+            result = calculate();
+        else
+            result = parseFloat(operand);
+
+        currentOperator = nextOperator;
+        operand = "";
+        displayResult();
     }
 }
 
 function equalsPress() {
-    result = "result";
-    displayResult();
+    if (result != null)
+        setLowerDisplay(calculate());
+    else
+        setLowerDisplay(parseFloat(operand));
 }
 
 function clearPress(button) {
-    setUpperDisplay(button.textContent);
+    setUpperDisplay("");
+    setLowerDisplay("");
+    result = null;
+    operand = "", numPressed = false, canPressDecimal = false, canPressOperator = false, decimalCount = 0, justInitialized=true;
 }
 
 function powerPress(button) {
-    setUpperDisplay(button.textContent);
+    //setUpperDisplay(button.textContent);
 }
