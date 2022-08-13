@@ -15,6 +15,7 @@
     min-width: 400px;
     display: flex;
     flex-direction: column;
+    background-color: grey;
 }
 
 .display {
@@ -26,6 +27,7 @@
     height: 100px;
     display: flex;
     flex-direction: column;
+    background-color: white;
 }
 
 #display-top    {
@@ -72,6 +74,15 @@
     display: flex;
     align-items: flex-end;
     justify-content: end;
+    background-color: whitesmoke;
+}
+
+.operator   {
+    background-color: orange;
+}
+
+.clear  {
+    background-color:greenyellow;
 }
 
 .power,
@@ -85,4 +96,8 @@
     display: flex;
     align-items: flex-end;
     justify-content: end;
+}
+
+.power  {
+    background-color: green;
 }

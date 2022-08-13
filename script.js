@@ -1,8 +1,9 @@
 let upperDisplay = document.querySelector("#display-top");
 let lowerDisplay = document.querySelector("#display-bottom");
+let display = document.querySelector(".display");
 let buttons = Array.from(document.querySelectorAll(".button"));
 
-let result, equation = "", operand = "", currentOperator = "", nextOperator = "", numPressed = false, canPressDecimal = false, canPressOperator = false, decimalCount = 0, justInitialized = true, powerOn = true;
+let result, equation = "", operand = "", currentOperator = "", nextOperator = "", previousNumber = "", numPressed = false, canPressDecimal = false, canPressOperator = false, operatorIsPressed=true, decimalCount = 0, justInitialized = true, powerOn = true;
 
 setEventListeners(buttons);
 
@@ -37,6 +38,7 @@ function setEventListeners(buttons) {
 }
 
 function addToUpperDisplay(item) {
+    //if(previousNumber != "0" && canPressDecimal)
     equation += item;
     upperDisplay.textContent = equation;
 }
@@ -96,6 +98,7 @@ function numberPress(button) {
         canPressDecimal = true;
         canPressOperator = true;
         justInitialized = false;
+        previousNumber = button.textContent;
         operand += button.textContent;
         //equalsPress();
         addToUpperDisplay(button.textContent);
@@ -152,11 +155,13 @@ function clearPress() {
 function powerPress(button) {
     if (powerOn) {
         powerOn = false;
-        //button.style.backgroundcolor = "red";
+        display.style.backgroundColor = "grey";
+        button.style.backgroundColor = "red";
     }
     else {
         powerOn = true;
-        //button.style.backgroundcolor = "green";
+        display.style.backgroundColor = "white";
+        button.style.backgroundColor = "green";
     }
     clearPress();
 }
