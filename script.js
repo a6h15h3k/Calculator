@@ -1,7 +1,7 @@
 let upperDisplay = document.querySelector("#display-top");
 let lowerDisplay = document.querySelector("#display-bottom");
 let buttons = Array.from(document.querySelectorAll(".button"));
-let result, operand = "", currentOperator = "", nextOperator = "", numPressed = false, canPressDecimal = false, canPressOperator = false, decimalCount = 0, justInitialized = true;
+let result, equation = "", operand = "", currentOperator = "", nextOperator = "", numPressed = false, canPressDecimal = false, canPressOperator = false, decimalCount = 0, justInitialized = true, powerOn = true;
 
 setEventListeners(buttons);
 
@@ -36,7 +36,8 @@ function setEventListeners(buttons) {
 }
 
 function addToUpperDisplay(item) {
-    upperDisplay.textContent += item;
+    equation += item;
+    upperDisplay.textContent = equation;
 }
 
 function setUpperDisplay(item) {
@@ -89,13 +90,15 @@ function divide(num1, num2) {
 }
 
 function numberPress(button) {
-    numPressed = true;
-    canPressDecimal = true;
-    canPressOperator = true;
-    justInitialized = false;
-    operand += button.textContent;
-    equalsPress();
-    addToUpperDisplay(button.textContent);
+    if (powerOn) {
+        numPressed = true;
+        canPressDecimal = true;
+        canPressOperator = true;
+        justInitialized = false;
+        operand += button.textContent;
+        equalsPress();
+        addToUpperDisplay(button.textContent);
+    }
 }
 
 function decimalPress(button) {
@@ -129,19 +132,28 @@ function operatorPress(button) {
 }
 
 function equalsPress() {
-    if (result != null)
-        setLowerDisplay(calculate());
-    else
-        setLowerDisplay(parseFloat(operand));
+    if (powerOn) {
+        if (result != null)
+            setLowerDisplay(calculate());
+        else
+            setLowerDisplay(parseFloat(operand));
+    }
 }
 
-function clearPress(button) {
+function clearPress() {
     setUpperDisplay("");
     setLowerDisplay("");
     result = null;
-    operand = "", numPressed = false, canPressDecimal = false, canPressOperator = false, decimalCount = 0, justInitialized=true;
+    equation = "";
+    operand = "", numPressed = false, canPressDecimal = false, canPressOperator = false, decimalCount = 0, justInitialized = true;
 }
 
-function powerPress(button) {
-    //setUpperDisplay(button.textContent);
+function powerPress() {
+    if (powerOn)
+        powerOn = false;
+    else {
+        powerOn = true;
+        powerOnAnimation("Power ON");
+    }
+    clearPress();
 }
