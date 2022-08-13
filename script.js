@@ -1,6 +1,7 @@
 let upperDisplay = document.querySelector("#display-top");
 let lowerDisplay = document.querySelector("#display-bottom");
 let buttons = Array.from(document.querySelectorAll(".button"));
+
 let result, equation = "", operand = "", currentOperator = "", nextOperator = "", numPressed = false, canPressDecimal = false, canPressOperator = false, decimalCount = 0, justInitialized = true, powerOn = true;
 
 setEventListeners(buttons);
@@ -96,7 +97,7 @@ function numberPress(button) {
         canPressOperator = true;
         justInitialized = false;
         operand += button.textContent;
-        equalsPress();
+        //equalsPress();
         addToUpperDisplay(button.textContent);
     }
 }
@@ -127,7 +128,7 @@ function operatorPress(button) {
 
         currentOperator = nextOperator;
         operand = "";
-        displayResult();
+        //displayResult();
     }
 }
 
@@ -148,12 +149,14 @@ function clearPress() {
     operand = "", numPressed = false, canPressDecimal = false, canPressOperator = false, decimalCount = 0, justInitialized = true;
 }
 
-function powerPress() {
-    if (powerOn)
+function powerPress(button) {
+    if (powerOn) {
         powerOn = false;
+        //button.style.backgroundcolor = "red";
+    }
     else {
         powerOn = true;
-        powerOnAnimation("Power ON");
+        //button.style.backgroundcolor = "green";
     }
     clearPress();
 }
