@@ -24,7 +24,7 @@
     margin: 25px;
     padding: 5px;
     max-width: 400px;
-    height: 100px;
+    min-height: 100px;
     display: flex;
     flex-direction: column;
     background-color: white;
@@ -36,7 +36,8 @@
     align-items: flex-end;
     justify-content: end;
     font-size: 30px;
-    overflow: hidden;
+    height: 40px;
+    overflow-x: scroll;
 }
 
 #display-bottom {
@@ -45,6 +46,7 @@
     align-items: flex-end;
     justify-content: end;
     font-size: 40px;
+    overflow-y: scroll;
 }
 
 .row1,
@@ -78,7 +80,7 @@
 }
 
 .operator   {
-    background-color: orange;
+    background-color:gold;
 }
 
 .clear  {

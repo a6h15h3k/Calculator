@@ -3,10 +3,15 @@ let lowerDisplay = document.querySelector("#display-bottom");
 let display = document.querySelector(".display");
 let buttons = Array.from(document.querySelectorAll(".button"));
 
-let result, equation = "", operand = "", currentOperator = "", nextOperator = "", previousNumber = "", numPressed = false, canPressDecimal = false, canPressOperator = false, operatorIsPressed=true, decimalCount = 0, justInitialized = true, powerOn = true;
+//Stores Operators, Operands and Results
+let result = 0, equation = "", operand = "", currentOperator = "", nextOperator = "", previousNumber = "";
+
+//Flags to prevent errors in Display and Calculations 
+let numPressed = false, canPressDecimal = false, canPressOperator = false, operatorIsPressed = true, decimalCount = 0, numOfZeros = 0, justInitialized = true, powerOn = true;
 
 setEventListeners(buttons);
 
+//Adds Event Listeners to all buttons in the Calculator
 function setEventListeners(buttons) {
     for (let button of buttons) {
         if (button.classList.contains('number')) {
@@ -38,7 +43,6 @@ function setEventListeners(buttons) {
 }
 
 function addToUpperDisplay(item) {
-    //if(previousNumber != "0" && canPressDecimal)
     equation += item;
     upperDisplay.textContent = equation;
 }
@@ -63,6 +67,7 @@ function displayResult() {
         setLowerDisplay(parseFloat(operand));
 }
 
+//Calculates result based on 2 operands in memory
 function calculate() {
     switch (currentOperator) {
         case "+":
@@ -76,6 +81,7 @@ function calculate() {
     }
 }
 
+//Mathematical Functions
 function add(num1, num2) {
     return num1 + num2;
 }
@@ -92,6 +98,7 @@ function divide(num1, num2) {
     return num1 / num2;
 }
 
+//Checks if Number can be pressed and populates displays accordingly
 function numberPress(button) {
     if (powerOn) {
         numPressed = true;
@@ -102,9 +109,13 @@ function numberPress(button) {
         operand += button.textContent;
         //equalsPress();
         addToUpperDisplay(button.textContent);
+        if(!(canPressDecimal && parseFloat(operand) == 0)) {
+            
+        }
     }
 }
 
+//Checks if Decimal can be pressed and populates displays accordingly
 function decimalPress(button) {
     if (canPressDecimal && decimalCount == 0) {
         decimalCount++;
@@ -115,6 +126,7 @@ function decimalPress(button) {
     }
 }
 
+//Checks if Operator can be pressed and populates displays accordingly
 function operatorPress(button) {
     if (canPressOperator) {
         addToUpperDisplay(button.textContent);
@@ -144,6 +156,7 @@ function equalsPress() {
     }
 }
 
+//Clears display to an empty screen
 function clearPress() {
     setUpperDisplay("");
     setLowerDisplay("");
@@ -152,6 +165,7 @@ function clearPress() {
     operand = "", numPressed = false, canPressDecimal = false, canPressOperator = false, decimalCount = 0, justInitialized = true;
 }
 
+//Disables all buttons and screen if Turned Off, Enables them if Turned On
 function powerPress(button) {
     if (powerOn) {
         powerOn = false;
